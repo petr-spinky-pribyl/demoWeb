@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Getting Started: Serving Web Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Files</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>Selection</th>
+				<th>File</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="file, iStat: ${files}">
+				<td th:text="${iStat.index}"/>
+				<td th:text="${file}"/>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
