@@ -1,8 +1,13 @@
 package cz.zcu.print.demoWeb.service;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,5 +35,27 @@ public class FileService {
 		        .map(file -> file.getAbsolutePath())
 		        .collect(Collectors.toList());
 		return files;
+	}
+
+	public void savePartState(Long id, FileState state) {
+		File rootDirectory = new File(rootDir);
+		File idFile = new File(rootDirectory, Long.toString(id));
+		try {
+			idFile.createNewFile();
+			
+			FileWriter fileWriter = new FileWriter(idFile, true);
+			PrintWriter printWriter = new PrintWriter(fileWriter);
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+			printWriter.printf("%s: %s - %s\n", formatter.format(new Date()), state.getPart(), state.getState());
+			
+			printWriter.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }
