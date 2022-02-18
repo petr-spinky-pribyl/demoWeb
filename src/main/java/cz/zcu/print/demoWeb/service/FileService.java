@@ -3,7 +3,6 @@ package cz.zcu.print.demoWeb.service;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,19 +37,33 @@ public class FileService {
 	}
 
 	public void savePartState(Long id, FileState state) {
+		String stateString = String.format("%s - %s\n", state.getPart(), state.getState());
+		writeOrAppend(id, stateString);
+	}
+
+	public void saveFileStart(Long id) {
+		writeOrAppend(id, "Start");		
+	}
+	
+	public void saveFileFinish(Long id) {
+		writeOrAppend(id, "Finish");		
+	}
+	
+	private void writeOrAppend(Long id, String logMessage) {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		String dateString = formatter.format(new Date());
+		
 		File rootDirectory = new File(rootDir);
 		File idFile = new File(rootDirectory, Long.toString(id));
 		try {
 			idFile.createNewFile();
 			
 			FileWriter fileWriter = new FileWriter(idFile, true);
-			PrintWriter printWriter = new PrintWriter(fileWriter);
-			
-			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-
-			printWriter.printf("%s: %s - %s\n", formatter.format(new Date()), state.getPart(), state.getState());
-			
-			printWriter.close();
+			fileWriter.write(dateString);
+			fileWriter.write(": ");
+			fileWriter.write(logMessage);
+			fileWriter.write('\n');
+			fileWriter.close();
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

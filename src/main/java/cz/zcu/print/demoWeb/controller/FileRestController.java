@@ -55,4 +55,14 @@ public class FileRestController {
 	void updateState(@PathVariable Long id, @RequestBody FileState state) {
 		fileService.savePartState(id, state);
 	}
+
+	@PostMapping("/filesToPrint/{id}/start")
+	void fileStart(@PathVariable Long id) {
+		fileService.saveFileStart(id);
+	}
+
+	@PostMapping("/filesToPrint/{id}/finish")
+	void fileFinish(@PathVariable Long id) {
+		fileService.saveFileFinish(id);
+	}
 }
