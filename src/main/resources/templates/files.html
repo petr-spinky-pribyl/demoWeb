@@ -3,16 +3,6 @@
 <head>
 <title>Getting Started: Serving Web Content</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<script type="text/javascript">
-function tisk(file) {
-
-// Open the window
-const pdfWindow = window.open(file);
-
-// Call print on it
-pdfWindow.print();
-}
-</script>
 </head>
 <body>
 	<h1>Files</h1>
@@ -26,8 +16,8 @@ pdfWindow.print();
 		<tbody>
 			<tr th:each="file, iStat: ${files}">
 				<td th:text="${iStat.index}"/>
-				<td th:text="${file}"/>
-				<td><button onclick="tisk('http://localhost:8080/filesToPrint/1')"></button></td>
+				<td th:text="${file.name}"/>
+				<td><a th:href="@{'webprint://localhost:8080/filesToPrint/' + ${file.index}}"><button>Tisk!</button></a></td>
 			</tr>
 		</tbody>
 	</table>

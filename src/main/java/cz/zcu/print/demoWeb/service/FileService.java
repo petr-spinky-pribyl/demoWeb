@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
+import cz.zcu.print.demoWeb.controller.FileToPrint;
+
 @Service
 @SessionScope
 public class FileService {
@@ -27,11 +29,13 @@ public class FileService {
 		return selectedFiles;
 	}
 	
-	public List<String> getFiles() {
+	public List<FileToPrint> getFiles() {
 		File rootDirectory = new File(rootDir);
+		int[] index = new int[1];
+		index[0] = 0;
 		
-		List<String> files = Arrays.stream(rootDirectory.listFiles())
-		        .map(file -> file.getAbsolutePath())
+		List<FileToPrint> files = Arrays.stream(rootDirectory.listFiles())
+		        .map(file -> new FileToPrint(index[0]++, file.getAbsolutePath()))
 		        .collect(Collectors.toList());
 		return files;
 	}
